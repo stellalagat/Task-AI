@@ -70,6 +70,17 @@ const TaskApp = () => {
   useEffect(() => {
     fetchTasks();
   }, []);
+  const handleGenerate = async () => {
+  try {
+    const res = await axios.post("/api/ai/generate-description", {
+      title,
+    });
+
+    setDescription(res.data.description);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   // FILTER LOGIC
   const filteredTasks = tasks.filter((task) => {
@@ -184,6 +195,10 @@ const TaskApp = () => {
           <button onClick={() => deleteTask(task._id)}>
             Delete
           </button>
+          <button onClick={handleGenerate}>
+            Generate Description
+          </button>
+
         </div>
       </div>
     ))}
