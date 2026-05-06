@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import taskRoutes from "./routes/taskRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -10,6 +13,14 @@ const app = express();
 // middleware
 app.use(cors());
 app.use(express.json());
+
+// ✅ ROUTES MUST BE HERE
+app.get("/hello123", (req, res) => {
+  res.send("HELLO WORKS");
+});
+
+app.use("/api/tasks", taskRoutes);
+app.use("/api/auth", authRoutes);
 
 // test route
 app.get("/", (req, res) => {
@@ -21,7 +32,7 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-// start server
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// ❌ THIS MUST BE LAST
+app.listen(7000, () => {
+  console.log("Server running on port 7000");
 });
